@@ -8,18 +8,18 @@ Gemini 3.1 Flash Image Preview 모델을 활용한 ComfyUI 이미지 생성/편�
 
 ```bash
 cd ComfyUI/custom_nodes
-git clone <repository-url> ComfyUI-NanoBanana
-pip install -r ComfyUI-NanoBanana/requirements.txt
+git clone <repository-url> ComfyUI-Vertex
+pip install -r ComfyUI-Vertex/requirements.txt
 ```
 
 ### 방법 2: Symlink
 
 ```bash
 # Windows (관리자 권한)
-mklink /D "ComfyUI\custom_nodes\ComfyUI-NanoBanana" "원본경로\ComfyUI-NanoBanana"
+mklink /D "ComfyUI\custom_nodes\ComfyUI-Vertex" "원본경로\ComfyUI-Vertex"
 
 # Linux / macOS
-ln -s /원본경로/ComfyUI-NanoBanana ComfyUI/custom_nodes/ComfyUI-NanoBanana
+ln -s /원본경로/ComfyUI-Vertex ComfyUI/custom_nodes/ComfyUI-Vertex
 ```
 
 ### 의존성
