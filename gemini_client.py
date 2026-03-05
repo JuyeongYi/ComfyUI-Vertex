@@ -27,7 +27,7 @@ DEFAULT_SYSTEM_PROMPT = (
 
 def _get_client() -> genai.Client:
     """google-genai Client 생성 (Express Mode)."""
-    return genai.Client(vertexai=True, api_key=get_api_key())
+    return genai.Client(api_key=get_api_key())
 
 
 def _tensor_to_bytes(tensor: torch.Tensor) -> bytes:
