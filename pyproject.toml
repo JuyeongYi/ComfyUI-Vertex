@@ -1,0 +1,11 @@
+[project]
+name = "comfyui-nanobanana"
+version = "0.1.0"
+description = "ComfyUI custom nodes for Gemini 3.1 Flash Image Preview (Nano Banana)"
+license = "MIT"
+dependencies = ["google-genai", "python-dotenv"]
+
+[tool.comfy]
+PublisherId = "nanobanana"
+DisplayName = "NanoBanana"
+Icon = ""
