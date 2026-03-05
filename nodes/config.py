@@ -14,7 +14,7 @@ NB_CONFIG = io.Custom("NB_CONFIG")
 ASPECT_RATIOS = ["auto", "1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"]
 IMAGE_SIZES = ["1K", "2K", "4K"]
 RESPONSE_MODALITIES = ["IMAGE+TEXT", "IMAGE"]
-THINKING_LEVELS = ["NONE", "MINIMAL", "HIGH"]
+THINKING_LEVELS = ["MINIMAL", "HIGH"]
 
 
 def _list_presets() -> list[str]:
@@ -51,8 +51,8 @@ class NBConfig(io.ComfyNode):
                                tooltip="출력 해상도. 1K / 2K / 4K"),
                 io.Combo.Input("response_modalities", options=RESPONSE_MODALITIES, default="IMAGE+TEXT",
                                tooltip="IMAGE: 이미지만 / IMAGE+TEXT: 이미지+텍스트 설명 함께 출력"),
-                io.Combo.Input("thinking_level", options=THINKING_LEVELS, default="NONE",
-                               tooltip="모델 사고 수준. 현재 gemini-3.1-flash-image-preview에서 미지원 — 설정해도 무시됩니다"),
+                io.Combo.Input("thinking_level", options=THINKING_LEVELS, default="MINIMAL",
+                               tooltip="모델 사고 수준. MINIMAL: 빠름 / HIGH: 더 정확하지만 느림"),
                 io.String.Input("system_prompt", multiline=True, default="", optional=True,
                                 tooltip="시스템 프롬프트. 비워두면 기본 이미지 생성 프롬프트 사용",
                                 advanced=True),

@@ -67,14 +67,9 @@ def _build_config(config: dict) -> types.GenerateContentConfig:
         image_config=types.ImageConfig(**image_config_kwargs) if image_config_kwargs else None,
     )
 
-    # thinking_level은 현재 gemini-3.1-flash-image-preview에서 미지원
     thinking_level = config.get("thinking_level")
     if thinking_level and thinking_level != "NONE":
-        print(
-            f"[NanoBanana] thinking_level='{thinking_level}' 설정됨 — "
-            "현재 gemini-3.1-flash-image-preview 모델은 configurable thinking levels를 "
-            "지원하지 않습니다. 이 설정은 무시됩니다."
-        )
+        gc.thinking_config = types.ThinkingConfig(thinking_level=thinking_level)
 
     return gc
 
