@@ -1,11 +1,15 @@
 [project]
-name = "comfyui-nanobanana"
+name = "comfyui-vertex"
 version = "0.1.0"
-description = "ComfyUI custom nodes for Gemini 3.1 Flash Image Preview (Nano Banana)"
+description = "ComfyUI custom nodes for VertexAI image generation"
 license = "MIT"
 dependencies = ["google-genai", "python-dotenv"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
 [tool.comfy]
-PublisherId = "nanobanana"
-DisplayName = "NanoBanana"
+PublisherId = "vertex"
+DisplayName = "Vertex"
 Icon = ""

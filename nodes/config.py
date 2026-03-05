@@ -1,4 +1,4 @@
-"""NB_Config — 설정 + 프리셋 관리 노드."""
+"""Vertex Config — 설정 + 프리셋 관리 노드."""
 
 from __future__ import annotations
 
@@ -8,10 +8,9 @@ from pathlib import Path
 from comfy_api.latest import io
 
 from ..const import AspectRatio, ImageSize, ResponseModality, ThinkingLevel
+from .types import VERTEX_CONFIG
 
 _PRESETS_DIR = Path(__file__).parent.parent / "presets"
-
-NB_CONFIG = io.Custom("NB_CONFIG")
 
 
 def _list_presets() -> list[str]:
@@ -30,17 +29,16 @@ def _save_preset(name: str, data: dict) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
-class NBConfig(io.ComfyNode):
+class VertexConfig(io.ComfyNode):
     @classmethod
     def define_schema(cls):
         presets = _list_presets()
         preset_options = ["(none)"] + presets
         return io.Schema(
-            node_id="NB_Config",
-            display_name="NanoBanana Config",
-            category="NanoBanana",
-            description="Gemini 3.1 Flash Image 설정. 프리셋 저장/로드 지원. "
-                        "API Key는 ComfyUI 루트 .env 파일의 GEMINI_API_KEY로 관리됩니다.",
+            node_id="Vertex_ImageConfig",
+            display_name="Vertex Image Config",
+            category="Vertex/Image",
+            description="Action 노드의 범용 설정. 프리셋 저장/로드 지원.",
             inputs=[
                 io.Combo.Input("aspect_ratio", options=list(AspectRatio), default=AspectRatio.AUTO,
                                tooltip="출력 이미지 비율. auto: 입력 이미지 비율 따름 또는 기본값"),
@@ -59,14 +57,13 @@ class NBConfig(io.ComfyNode):
                                 tooltip="이름 입력 시 현재 설정을 프리셋으로 저장"),
             ],
             outputs=[
-                NB_CONFIG.Output(display_name="config"),
+                VERTEX_CONFIG.Output(display_name="config"),
             ],
         )
 
     @classmethod
     def execute(cls, aspect_ratio, image_size, response_modalities,
                 thinking_level, system_prompt="", preset_name="(none)", save_as="") -> io.NodeOutput:
-        # 프리셋 로드
         if preset_name and preset_name != "(none)":
             try:
                 config = _load_preset(preset_name)
@@ -76,7 +73,7 @@ class NBConfig(io.ComfyNode):
                 config.setdefault("thinking_level", thinking_level)
                 config.setdefault("system_prompt", system_prompt)
             except FileNotFoundError:
-                print(f"[NanoBanana] 프리셋 '{preset_name}'을 찾을 수 없습니다. 위젯 값을 사용합니다.")
+                print(f"[Vertex] 프리셋 '{preset_name}'을 찾을 수 없습니다. 위젯 값을 사용합니다.")
                 config = {}
         else:
             config = {}
@@ -90,9 +87,8 @@ class NBConfig(io.ComfyNode):
                 "system_prompt": system_prompt,
             }
 
-        # 프리셋 저장
         if save_as and save_as.strip():
             _save_preset(save_as.strip(), config)
-            print(f"[NanoBanana] 프리셋 '{save_as.strip()}' 저장 완료")
+            print(f"[Vertex] 프리셋 '{save_as.strip()}' 저장 완료")
 
         return io.NodeOutput(config)

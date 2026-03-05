@@ -1,4 +1,4 @@
-"""NanoBanana 상수 정의."""
+"""Vertex 상수 정의."""
 
 from enum import StrEnum
 

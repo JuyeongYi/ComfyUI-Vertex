@@ -1,9 +1,10 @@
-"""API Key 관리. 향후 1Password 등 런타임 키 주입으로 교체 가능."""
+"""API Key 및 클라이언트 관리."""
 
 import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from google import genai
 
 # ComfyUI 루트의 .env 로드
 _COMFYUI_ROOT = Path(__file__).parent.parent.parent
@@ -27,3 +28,14 @@ def get_api_key() -> str:
             "환경변수로 설정하세요."
         )
     return key
+
+
+_client: genai.Client | None = None
+
+
+def get_client() -> genai.Client:
+    """genai.Client 싱글턴 반환."""
+    global _client
+    if _client is None:
+        _client = genai.Client(api_key=get_api_key())
+    return _client
