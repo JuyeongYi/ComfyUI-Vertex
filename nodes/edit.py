@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+
 import torch
 from comfy_api.latest import io, ui
 
@@ -44,8 +46,8 @@ class VertexImageEdit(io.ComfyNode):
         )
 
     @classmethod
-    def execute(cls, model: ImageModel, config: dict, prompt: str,
-                images: io.Autogrow.Type, seed: int) -> io.NodeOutput:
+    async def execute(cls, model: ImageModel, config: dict, prompt: str,
+                      images: io.Autogrow.Type, seed: int) -> io.NodeOutput:
         if not prompt or not prompt.strip():
             raise ValueError("편집 프롬프트를 입력해주세요.")
 
@@ -57,7 +59,10 @@ class VertexImageEdit(io.ComfyNode):
         if not image_list:
             raise ValueError("편집할 이미지를 1장 이상 연결해주세요.")
 
-        result_images, text = model.edit_image(prompt, image_list, config, seed=seed)
+        loop = asyncio.get_event_loop()
+        result_images, text = await loop.run_in_executor(
+            None, lambda: model.edit_image(prompt, image_list, config, seed=seed)
+        )
 
         if result_images is None:
             result_images = torch.zeros((1, 512, 512, 3))

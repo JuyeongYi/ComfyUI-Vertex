@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+
 import torch
 from comfy_api.latest import io, ui
 
@@ -35,11 +37,14 @@ class VertexImageGenerate(io.ComfyNode):
         )
 
     @classmethod
-    def execute(cls, model: ImageModel, config: dict, prompt: str, seed: int) -> io.NodeOutput:
+    async def execute(cls, model: ImageModel, config: dict, prompt: str, seed: int) -> io.NodeOutput:
         if not prompt or not prompt.strip():
             raise ValueError("프롬프트를 입력해주세요.")
 
-        images, text = model.generate_image(prompt, config, seed=seed)
+        loop = asyncio.get_event_loop()
+        images, text = await loop.run_in_executor(
+            None, lambda: model.generate_image(prompt, config, seed=seed)
+        )
 
         if images is None:
             images = torch.zeros((1, 512, 512, 3))
