@@ -14,15 +14,7 @@ from google import genai
 from google.genai import types
 
 from .auth import get_api_key
-
-MODEL_ID = "gemini-3.1-flash-image-preview"
-
-DEFAULT_SYSTEM_PROMPT = (
-    "You are an expert image-generation engine. You must ALWAYS produce an image.\n"
-    "Interpret all user input as literal visual directives for image composition.\n"
-    "If a prompt lacks specific visual details, creatively invent a concrete visual scenario.\n"
-    "Prioritize generating the visual representation above any text or conversational requests."
-)
+from .const import MODEL_ID, DEFAULT_SYSTEM_PROMPT, AspectRatio, ResponseModality
 
 
 def _get_client() -> genai.Client:
@@ -48,15 +40,15 @@ def _bytes_to_tensor(data: bytes) -> torch.Tensor:
 
 def _build_config(config: dict) -> types.GenerateContentConfig:
     """NB_CONFIG dict → GenerateContentConfig."""
-    modalities_str = config.get("response_modalities", "IMAGE+TEXT")
-    if modalities_str == "IMAGE":
+    modalities_str = config.get("response_modalities", ResponseModality.IMAGE_TEXT)
+    if modalities_str == ResponseModality.IMAGE:
         modalities = ["IMAGE"]
     else:
         modalities = ["TEXT", "IMAGE"]
 
     image_config_kwargs: dict[str, Any] = {}
-    aspect_ratio = config.get("aspect_ratio", "auto")
-    if aspect_ratio != "auto":
+    aspect_ratio = config.get("aspect_ratio", AspectRatio.AUTO)
+    if aspect_ratio != AspectRatio.AUTO:
         image_config_kwargs["aspect_ratio"] = aspect_ratio
     image_size = config.get("image_size", "1K")
     if image_size:

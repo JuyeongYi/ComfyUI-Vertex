@@ -7,14 +7,11 @@ from pathlib import Path
 
 from comfy_api.latest import io
 
+from ..const import AspectRatio, ImageSize, ResponseModality, ThinkingLevel
+
 _PRESETS_DIR = Path(__file__).parent.parent / "presets"
 
 NB_CONFIG = io.Custom("NB_CONFIG")
-
-ASPECT_RATIOS = ["auto", "1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9"]
-IMAGE_SIZES = ["1K", "2K", "4K"]
-RESPONSE_MODALITIES = ["IMAGE+TEXT", "IMAGE"]
-THINKING_LEVELS = ["MINIMAL", "HIGH"]
 
 
 def _list_presets() -> list[str]:
@@ -45,13 +42,13 @@ class NBConfig(io.ComfyNode):
             description="Gemini 3.1 Flash Image 설정. 프리셋 저장/로드 지원. "
                         "API Key는 ComfyUI 루트 .env 파일의 GEMINI_API_KEY로 관리됩니다.",
             inputs=[
-                io.Combo.Input("aspect_ratio", options=ASPECT_RATIOS, default="auto",
+                io.Combo.Input("aspect_ratio", options=list(AspectRatio), default=AspectRatio.AUTO,
                                tooltip="출력 이미지 비율. auto: 입력 이미지 비율 따름 또는 기본값"),
-                io.Combo.Input("image_size", options=IMAGE_SIZES, default="1K",
+                io.Combo.Input("image_size", options=list(ImageSize), default=ImageSize.K1,
                                tooltip="출력 해상도. 1K / 2K / 4K"),
-                io.Combo.Input("response_modalities", options=RESPONSE_MODALITIES, default="IMAGE+TEXT",
+                io.Combo.Input("response_modalities", options=list(ResponseModality), default=ResponseModality.IMAGE_TEXT,
                                tooltip="IMAGE: 이미지만 / IMAGE+TEXT: 이미지+텍스트 설명 함께 출력"),
-                io.Combo.Input("thinking_level", options=THINKING_LEVELS, default="MINIMAL",
+                io.Combo.Input("thinking_level", options=list(ThinkingLevel), default=ThinkingLevel.MINIMAL,
                                tooltip="모델 사고 수준. MINIMAL: 빠름 / HIGH: 더 정확하지만 느림"),
                 io.String.Input("system_prompt", multiline=True, default="", optional=True,
                                 tooltip="시스템 프롬프트. 비워두면 기본 이미지 생성 프롬프트 사용",
