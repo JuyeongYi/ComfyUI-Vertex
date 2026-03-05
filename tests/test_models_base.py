@@ -5,18 +5,20 @@ import numpy as np
 from models.base import BaseModel, ImageModel, Capability
 
 
-def test_base_model_cannot_instantiate():
-    with pytest.raises(TypeError):
-        BaseModel()
-
-
 def test_image_model_cannot_instantiate():
     with pytest.raises(TypeError):
         ImageModel()
 
 
 def test_image_model_has_image_capability():
-    assert Capability.IMAGE in ImageModel.capabilities
+    class _Stub(ImageModel):
+        model_id = "test"
+        display_name = "test"
+        def generate_image(self, *a, **kw): ...
+        def edit_image(self, *a, **kw): ...
+
+    stub = _Stub()
+    assert Capability.IMAGE in stub.capabilities
 
 
 def test_tensor_to_bytes_roundtrip():

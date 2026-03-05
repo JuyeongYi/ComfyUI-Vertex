@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from comfy_api.latest import io
 
-from ..models import get_image_model_names, create_image_model
+from ..models.registry import get_image_model_names, create_image_model
 from .types import VERTEX_IMAGE_MODEL
 
 

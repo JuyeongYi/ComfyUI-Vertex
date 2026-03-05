@@ -22,8 +22,10 @@ class BaseModel(ABC):
 
     model_id: str
     display_name: str
-    capabilities: set[Capability]
     label: str | None = None
+
+    def __init__(self) -> None:
+        self.capabilities: set[Capability] = set()
 
     @classmethod
     def get_label(cls) -> str:
@@ -32,14 +34,13 @@ class BaseModel(ABC):
         import re
         return re.sub(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " ", cls.__name__)
 
-    @abstractmethod
-    def __init__(self) -> None: ...
-
 
 class ImageModel(BaseModel):
     """이미지 생성/편집 모델 추상 클래스."""
 
-    capabilities: set[Capability] = {Capability.IMAGE}
+    def __init__(self) -> None:
+        super().__init__()
+        self.capabilities.add(Capability.IMAGE)
 
     @abstractmethod
     def generate_image(

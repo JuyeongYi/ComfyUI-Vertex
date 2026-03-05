@@ -25,7 +25,7 @@ class Gemini_3_1_FlashImage(ImageModel):
     label = "NanoBanana2"
 
     def __init__(self) -> None:
-        pass
+        super().__init__()
 
     def generate_image(
         self, prompt: str, config: dict, seed: int = 0,
