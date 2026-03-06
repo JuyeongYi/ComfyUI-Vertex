@@ -9,18 +9,10 @@ Google Vertex AI 포괄 사용 목적의 노드 시스템.
 ```bash
 cd ComfyUI/custom_nodes
 git clone <repository-url> ComfyUI-Vertex
-pip install -r ComfyUI-Vertex/requirements.txt
+cd ..
+pip install -r custom_nodes/ComfyUI-Vertex/requirements.txt
 ```
 
-### 방법 2: Symlink
-
-```bash
-# Windows (관리자 권한)
-mklink /D "ComfyUI\custom_nodes\ComfyUI-Vertex" "원본경로\ComfyUI-Vertex"
-
-# Linux / macOS
-ln -s /원본경로/ComfyUI-Vertex ComfyUI/custom_nodes/ComfyUI-Vertex
-```
 
 ### 의존성
 
