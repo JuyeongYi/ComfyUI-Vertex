@@ -1,6 +1,6 @@
 # ComfyUI-Vertex
 
-Gemini 3.1 Flash Image Preview 모델을 활용한 ComfyUI 이미지 생성/편집 커스텀 노드 확장.
+Google Vertex AI 포괄 사용 목적의 노드 시스템.
 
 ## 설치
 
